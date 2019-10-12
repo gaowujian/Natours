@@ -1,0 +1,195 @@
+/* 
+Light green: #7ed56f
+Medium green: #55c57a
+Dark green: #28b485
+*/
+
+/* use as normalize.css */
+/* 需要将伪元素一并初始化 */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+/* root element, rem refers to the size of the font for html tag */
+/* 有的时候用户会改变浏览器的字体大小，所以使用px不是最好的选择 */
+/* 默认的是16px 所以我们有 1rem = 16 * 0.625 = 10px 如果是20px, 1rem = 20px * 0.625 = 12.5px */
+html {
+  font-size: 62.5%;
+}
+
+/* property with font are usually inherited */
+body {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1.7;
+  color: #777;
+  padding: 3rem;
+  /* 一般来说，box-sizing在通配选择器*进行使用，但是有的时候，一些组件想修改自己的box-sizing,所以我们在*使用inherit */
+  box-sizing: border-box;
+}
+
+.header {
+  height: 95vh;
+  background-image: linear-gradient(to right bottom, rgb(57, 184, 35, 0.8), rgb(40, 180, 133, 0.8)),
+    url(../img/hero.jpg);
+  /* 默认是auto 图片不会随着屏幕大小而变化 */
+  background-size: cover;
+  /* 默认是top left，沿着background的边来放图片 */
+  background-position: center center;
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+  /* make it easier for the position of log and heading */
+  position: relative;
+}
+
+.header__logo-box {
+  position: absolute;
+  top: 4rem;
+  left: 4rem;
+}
+
+.header__logo {
+  height: 3.5rem;
+}
+
+/* align the box to the center vertically and horizontally */
+.header__text-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.heading-primary {
+  color: #fff;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 6rem;
+}
+
+/* 使用block让两个span 分行，用span是为了分开修饰样式 */
+.heading-primary--main {
+  display: block;
+  font-size: 6rem;
+  font-weight: 400;
+  letter-spacing: 3.5rem;
+  animation-name: moveInLeft;
+  /* duration is must-have property */
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+}
+
+.heading-secondary--sub {
+  display: block;
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: 1.5rem;
+  animation-name: moveInRight;
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+}
+
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-1rem);
+  }
+  80% {
+    transform: translateX(0.1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(1rem);
+  }
+  80% {
+    transform: translateX(-0.1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(0.3rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+/* create your own button */
+.btn:link,
+.btn:visited {
+  display: inline-block;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 10rem;
+  padding: 1.5rem 4rem;
+  transition: all 0.2s;
+  /* used for pseudo elements */
+  position: relative;
+}
+
+.btn:hover {
+  transform: translateY(-0.3rem);
+  box-shadow: 0 10rem 20rem rgb(0, 0, 0, 0.2);
+}
+
+.btn:active {
+  transform: translateY(-0.1rem);
+  box-shadow: 0 0.5rem 1rem rgb(0, 0, 0, 0.2);
+}
+
+.btn--white {
+  background-color: white;
+  color: #777;
+}
+
+.btn--animated {
+  animation: moveInBottom 0.5s ease-out 0.75s;
+  /* 默认情况下animation 0的状态没有添加到button，需要使用backwards属性 */
+  animation-fill-mode: backwards;
+}
+
+/* 用来创建酷炫的button效果 */
+
+.btn::after {
+  /* cant appear without content */
+  content: "";
+  /* pseudo elements treated as the children of this element */
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  border-radius: 10rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transition: all 0.4s;
+}
+
+/* 默认的背景是透明的，对于pseudo元素也是一样的，所以要给after也加上color */
+.btn--white::after {
+  background-color: white;
+}
+
+.btn:hover::after {
+  transform: scaleX(1.4) scaleY(1.6);
+  opacity: 0;
+}
